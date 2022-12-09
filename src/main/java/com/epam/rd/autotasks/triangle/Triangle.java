@@ -26,18 +26,19 @@ class Triangle {
         this.BC = (sqrt(pow(c.getX() - b.getX(), 2) + pow(c.getY() - b.getY(), 2)));
 
         // Condition on the sides
-        if ((AB + AC) < BC || (AC + BC) < AB || (AB + BC) < AC)
+        if ((AB + AC) <= BC || (AC + BC) <= AB || (AB + BC) <= AC)
             throw new IllegalArgumentException("Triangle is degenerative according to the sides' rule!");
 
-        System.out.println("-------------------------");
         // Converting to degree
-        double alpha = getAngle(AB, AC, BC);
-        double betta = getAngle(AC, BC, AB);
-        double gamma = getAngle(BC, AB, AC);
-        //float sum = (float) (alpha + gamma + betta);
-        //System.out.println("Sum--> " + sum);
+        double alpha = (getAngle(AB, AC, BC));
+        double betta = (getAngle(AC, BC, AB));
+        double gamma = (getAngle(BC, AB, AC));
+        double sumAngles = (alpha + gamma + betta);
 
-        if ( (alpha < 0 || betta < 0 || gamma < 0) || (alpha + betta + gamma) != 180.0 )
+        // Using threshold method: Simply, we will subtract sumAngles and 180.0, make absolute value, and compare if the result is smaller than some very small number.
+        double epsilon = 0.000001d;
+
+        if ( (alpha < 0 || betta < 0 || gamma < 0) || abs(sumAngles - 180.0) > epsilon )
             throw new IllegalArgumentException("Triangle is degenerative according to the angles' rule!!");
 
     }
@@ -62,7 +63,7 @@ class Triangle {
         // TODO
         // semi-perimeter
         double s = (this.AB + this.AC + this.BC) / 2.0;
-        double area = sqrt( s*(s - this.AB)*(s - this.AC)*(s - this.BC) );
+        double area = round( sqrt( s*(s - this.AB)*(s - this.AC)*(s - this.BC)) * 100.0) / 100.0;
 
         return area;
     }
